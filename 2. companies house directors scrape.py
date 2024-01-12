@@ -23,7 +23,7 @@ api_key = (api_key.read())
 base_url = "https://api.company-information.service.gov.uk/company/"
 
 dir_list =[]
-co_num_error = {}
+status_codes = {}
 dir_dump_list = []
 
 request_number = 0
@@ -36,10 +36,10 @@ for item in tqdm(company_nos):
     else: pass
     response = requests.get(f"{base_url}{item}/officers",auth=(api_key,''))
     request_number = request_number + 1 
-    co_num_error[item] = {}
-    co_num_error[item]['status_code'] = response.status_code
-    co_num_error[item]['timestamp'] = str(datetime.now())
-    co_num_error[item]['request_number'] = request_number 
+    status_codes[item] = {}
+    status_codes[item]['status_code'] = response.status_code
+    status_codes[item]['timestamp'] = str(datetime.now())
+    status_codes[item]['request_number'] = request_number 
     if response.status_code == 429:
         print("429_sleeping")
         time.sleep(300)
@@ -57,11 +57,11 @@ for item in tqdm(company_nos):
         dir_list.append(item['links']['officer']['appointments'])
 
 dir_info = pd.json_normalize(dir_dump_list)
-df2 = pd.DataFrame.from_dict(co_num_error)
-df2_transposed = df2.T
+dir_search_statuses = pd.DataFrame.from_dict(status_codes)
+dir_search_statuses = dir_search_statuses.T
 
 #Export director info, list and search statuses
 dir_info.to_csv(f'{DATA_DIR}/outputs/dir_info.csv', index=False)
-df2_transposed.to_csv(f'{DATA_DIR}/outputs/dir_search_statuses.csv', index=False)
+dir_search_statuses.to_csv(f'{DATA_DIR}/outputs/dir_search_statuses.csv', index=True)
 dir_list = pd.Series(dir_list)
 dir_list.to_csv(f'{DATA_DIR}/outputs/dir_list.csv', index=False)

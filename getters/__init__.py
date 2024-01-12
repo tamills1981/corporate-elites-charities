@@ -60,3 +60,15 @@ def get_appointments(data_dir: str) -> pd.DataFrame:
         pd.DataFrame: Appointments data
     """
     return (pd.read_csv(f"{data_dir}/outputs/dir_info.csv"))
+
+def get_corporate_elite(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of appointments of corporate elite
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Appointments data
+    """
+    return (pd.read_csv(f"{data_dir}/outputs/corporate_elite.csv"))
+

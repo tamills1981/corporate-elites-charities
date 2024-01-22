@@ -72,3 +72,25 @@ def get_corporate_elite(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f"{data_dir}/outputs/corporate_elite.csv"))
 
+def get_charities(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of main charity data
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: main charity data
+    """
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity.txt", sep='\t', parse_dates=[0, 7, 8, 30], on_bad_lines='warn'))
+
+def get_annual_return_history(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of charities anuual return history
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Charities anuual return history
+    """
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_history.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
+

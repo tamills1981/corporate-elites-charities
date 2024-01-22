@@ -1,3 +1,5 @@
 charity_data
 outputs
 .DS_Store
+.txt
+.pyc

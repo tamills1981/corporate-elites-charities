@@ -81,16 +81,28 @@ def get_charities(data_dir: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: main charity data
     """
-    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity.txt", sep='\t', parse_dates=[0, 7, 8, 30], on_bad_lines='warn'))
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity.txt", sep='\t', parse_dates=['date_of_extract', 'date_of_registration',
+    'date_of_removal', 'date_cio_dissolution_notice'], on_bad_lines='warn'))
 
-def get_annual_return_history(data_dir: str) -> pd.DataFrame:
-    """Gets dataframe of charities anuual return history
+def get_CRCs(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of main charity data
         
         Args:
             data_dir (str): Directory to data.
 
     Returns:
-        pd.DataFrame: Charities anuual return history
+        pd.DataFrame: main charity data
     """
-    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_history.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
+    return (pd.read_csv(f'{data_dir}/outputs/CRCs.csv', parse_dates=['date_of_registration'], on_bad_lines='warn'))
+
+def get_annual_return_parta(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of charities anuual return parta
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Charities anuual return parta
+    """
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_parta.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
 

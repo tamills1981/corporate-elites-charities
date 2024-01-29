@@ -1,3 +1,8 @@
 charity_data
 outputs
 .DS_Store
+<<<<<<< HEAD
+=======
+.txt
+.pyc
+>>>>>>> c2abc23ee1f0e6cfe55b4f39f3e3da5e0c92bc0a

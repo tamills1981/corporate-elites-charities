@@ -72,3 +72,40 @@ def get_corporate_elite(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f"{data_dir}/outputs/corporate_elite.csv"))
 
+<<<<<<< HEAD
+=======
+def get_charities(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of main charity data
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: main charity data
+    """
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity.txt", sep='\t', parse_dates=['date_of_extract', 'date_of_registration',
+    'date_of_removal', 'date_cio_dissolution_notice'], on_bad_lines='warn'))
+
+def get_CRCs(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of main charity data
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: main charity data
+    """
+    return (pd.read_csv(f'{data_dir}/outputs/CRCs.csv', parse_dates=['date_of_registration'], on_bad_lines='warn'))
+
+def get_annual_return_parta(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of charities anuual return parta
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Charities anuual return parta
+    """
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_parta.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
+
+>>>>>>> c2abc23ee1f0e6cfe55b4f39f3e3da5e0c92bc0a

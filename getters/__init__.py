@@ -84,6 +84,17 @@ def get_charities(data_dir: str) -> pd.DataFrame:
     return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity.txt", sep='\t', parse_dates=['date_of_extract', 'date_of_registration',
     'date_of_removal', 'date_cio_dissolution_notice'], on_bad_lines='warn'))
 
+def get_royal_patronage(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of charities with royal patronage
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: dataframe of charities with royal patronage
+    """
+    return (pd.read_csv(f'{data_dir}/royal_patronages.csv', dtype={'registered_charity_number':'int64'}))
+
 def get_CRCs(data_dir: str) -> pd.DataFrame:
     """Gets dataframe of main charity data
         

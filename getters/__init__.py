@@ -107,5 +107,3 @@ def get_annual_return_parta(data_dir: str) -> pd.DataFrame:
         pd.DataFrame: Charities anuual return parta
     """
     return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_parta.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
-
->>>>>>> c2abc23ee1f0e6cfe55b4f39f3e3da5e0c92bc0a

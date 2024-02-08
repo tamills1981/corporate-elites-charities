@@ -72,8 +72,6 @@ def get_corporate_elite(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f"{data_dir}/outputs/corporate_elite.csv"))
 
-<<<<<<< HEAD
-=======
 def get_charities(data_dir: str) -> pd.DataFrame:
     """Gets dataframe of main charity data
         
@@ -107,3 +105,49 @@ def get_annual_return_parta(data_dir: str) -> pd.DataFrame:
         pd.DataFrame: Charities anuual return parta
     """
     return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_parta.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
+
+def get_royal_patronage(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of charities with royal patronage
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: dataframe of charities with royal patronage
+    """
+    return (pd.read_csv(f'{data_dir}/royal_patronages.csv', dtype={'registered_charity_number':'int64'}))
+
+
+def get_area_of_operations_data(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of charities area of operations data.
+    
+    Args:
+        data_dir (str): Directory to data.
+    
+    Returns:
+        pd.DataFrame: Charities area of operations data
+    """
+    file_path = f"{data_dir}/charity_data/publicextract.charity_area_of_operation.txt"
+    try:
+        return pd.read_csv(file_path, sep='\t', error_bad_lines=False, dtype=str, low_memory=False)
+    except Exception as e:
+        print(f"Error reading the file: {e}")
+        return pd.DataFrame()
+
+def get_charity_classification_data(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of charity classification data.
+    
+    Args:
+        data_dir (str): Directory to data.
+    
+    Returns:
+        pd.DataFrame: Charity classification data
+    """
+    file_path = f"{data_dir}/charity_data/publicextract.charity_classification.txt"
+    try:
+        return pd.read_csv(file_path, sep='\t', error_bad_lines=False, dtype=str, low_memory=False)
+    except Exception as e:
+        print(f"Error reading the file: {e}")
+        return pd.DataFrame()

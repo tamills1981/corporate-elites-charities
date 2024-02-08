@@ -134,6 +134,24 @@ def get_area_of_operations_data(data_dir: str) -> pd.DataFrame:
     except Exception as e:
         print(f"Error reading the file: {e}")
         return pd.DataFrame()
+def get_authorities_regions_data(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of authorities regions data.
+    
+    Args:
+        data_dir (str): Directory to data.
+    
+    Returns:
+        pd.DataFrame: Authorities regions data
+    """
+    file_path = f"{data_dir}/other_data/authorities_regions.csv"
+    try:
+        # Assuming the file is a CSV with default comma separator.
+        # Modify this line if the file format or separator is different.
+        return pd.read_csv(file_path, dtype=str, low_memory=False)
+    except Exception as e:
+        print(f"Error reading the file: {e}")
+        return pd.DataFrame()
 
 def get_charity_classification_data(data_dir: str) -> pd.DataFrame:
     """

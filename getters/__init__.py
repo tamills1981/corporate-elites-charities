@@ -72,6 +72,17 @@ def get_corporate_elite(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f"{data_dir}/outputs/corporate_elite.csv"))
 
+def get_corporate_elite_appointments(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of appointments of corporate elite
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Appointments data
+    """
+    return (pd.read_csv(f"{data_dir}/outputs/corporate_elite_appointments.csv"))
+
 def get_charities(data_dir: str) -> pd.DataFrame:
     """Gets dataframe of main charity data
         
@@ -134,6 +145,7 @@ def get_area_of_operations_data(data_dir: str) -> pd.DataFrame:
     except Exception as e:
         print(f"Error reading the file: {e}")
         return pd.DataFrame()
+
 def get_authorities_regions_data(data_dir: str) -> pd.DataFrame:
     """
     Gets dataframe of authorities regions data.
@@ -144,7 +156,7 @@ def get_authorities_regions_data(data_dir: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: Authorities regions data
     """
-    file_path = f"{data_dir}/other_data/authorities_regions.csv"
+    file_path = f"{data_dir}/authorities_regions.csv"
     try:
         # Assuming the file is a CSV with default comma separator.
         # Modify this line if the file format or separator is different.

@@ -18,7 +18,7 @@ import codecs
 from utils import PROJECT_DIR
 from getters import get_charities
 from getters import get_area_of_operations_data
-From getters import get_authorities_regions_data
+from getters import get_authorities_regions_data
 
 DATA_DIR = f'{PROJECT_DIR}/'
 

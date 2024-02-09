@@ -141,7 +141,7 @@ def get_area_of_operations_data(data_dir: str) -> pd.DataFrame:
     """
     file_path = f"{data_dir}/charity_data/publicextract.charity_area_of_operation.txt"
     try:
-        return pd.read_csv(file_path, sep='\t', error_bad_lines=False, dtype=str, low_memory=False)
+        return pd.read_csv(file_path, sep='\t', on_bad_lines='warn', dtype=str, low_memory=False)
     except Exception as e:
         print(f"Error reading the file: {e}")
         return pd.DataFrame()
@@ -158,8 +158,6 @@ def get_authorities_regions_data(data_dir: str) -> pd.DataFrame:
     """
     file_path = f"{data_dir}/authorities_regions.csv"
     try:
-        # Assuming the file is a CSV with default comma separator.
-        # Modify this line if the file format or separator is different.
         return pd.read_csv(file_path, dtype=str, low_memory=False)
     except Exception as e:
         print(f"Error reading the file: {e}")
@@ -177,7 +175,7 @@ def get_charity_classification_data(data_dir: str) -> pd.DataFrame:
     """
     file_path = f"{data_dir}/charity_data/publicextract.charity_classification.txt"
     try:
-        return pd.read_csv(file_path, sep='\t', error_bad_lines=False, dtype=str, low_memory=False)
+        return pd.read_csv(file_path, sep='\t', on_bad_lines='warn', dtype=str, low_memory=False)
     except Exception as e:
         print(f"Error reading the file: {e}")
         return pd.DataFrame()

@@ -15,8 +15,6 @@ companies = get_companies(DATA_DIR)
 #Create list from Series to populate API queries
 company_nos = companies.company_no.tolist()
 
-company_nos = company_nos[0:50]
-
 #Upload API key from main folder
 api_key = open(f"{DATA_DIR}/api_key.txt", "r")
 api_key = (api_key.read())

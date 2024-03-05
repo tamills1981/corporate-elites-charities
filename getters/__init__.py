@@ -126,8 +126,40 @@ def get_royal_patronage(data_dir: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: dataframe of charities with royal patronage
     """
-    return (pd.read_csv(f'{data_dir}/royal_patronages.csv', dtype={'registered_charity_number':'int64'}))
+    return (pd.read_csv(f'{data_dir}/other_data_sources/royal_patronages.csv', dtype={'registered_charity_number':'int64'}))
 
+def get_private_school_charities(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of private school charities
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: dataframe of private school charities organisation numbers
+    """
+    return (pd.read_csv(f'{data_dir}/other_data_sources/private_school_charities.txt', dtype={'organisation_number':'int64'}))
+
+def get_oxbridge_charities(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of oxbridge charities
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: dataframe of oxbridge charities organisation numbers
+    """
+    return (pd.read_csv(f'{data_dir}/other_data_sources/oxbridge.txt', dtype={'organisation_number':'int64'}))
+
+def get_private_schools(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of private schools from Department for Education
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: dataframe of private schools
+    """
+    return (pd.read_csv(f'{data_dir}/other_data_sources/private_schools.csv', encoding='latin1'))
 
 def get_area_of_operations_data(data_dir: str) -> pd.DataFrame:
     """

@@ -1,6 +1,6 @@
 import pandas as pd
 from utils import PROJECT_DIR
-from getters import get_charities, get_royal_patronage, get_corporate_elite_appointments, get_private_school_charities, get_oxbridge_charities
+from getters import get_charities, get_royal_patronage, get_corporate_elite_appointments, get_private_school_charities, get_oxbridge_charities, get_think_tank_charities
 
 DATA_DIR = f'{PROJECT_DIR}/'
 
@@ -10,6 +10,7 @@ royal_patronage = get_royal_patronage(DATA_DIR)
 corporate_elite_appointments = get_corporate_elite_appointments(DATA_DIR)
 private_school_charities = get_private_school_charities(DATA_DIR)
 oxbridge_charities = get_oxbridge_charities(DATA_DIR)
+think_tank_charities = get_think_tank_charities(DATA_DIR)
 
 #Drop charities registered after 2023 
 filt = (charity_data['date_of_registration'] < '2023')
@@ -47,6 +48,9 @@ CRCs['charity_age'] = CRCs['date_of_registration'].apply(calculate_age)
 
 #Create corporate elite trustee boolean variable
 CRCs['corporate_elite_trustee'] = CRCs['charity_company_registration_number'].isin(corporate_elite_appointments['appointed_to.company_number'])
+
+#Create think tank variable 
+CRCs['think_tank'] = CRCs['organisation_number'].isin(think_tank_charities['organisation_number'])
 
 #Export the data as a csv
 CRCs.to_csv(f'{DATA_DIR}/outputs/CRCs.csv', index=False)

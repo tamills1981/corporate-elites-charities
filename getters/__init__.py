@@ -211,3 +211,37 @@ def get_charity_classification_data(data_dir: str) -> pd.DataFrame:
     except Exception as e:
         print(f"Error reading the file: {e}")
         return pd.DataFrame()
+
+def get_think_tanks(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of think tanks data.
+    
+    Args:
+        data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Think tanks data.
+    """
+    return pd.read_csv(f"{data_dir}/other_data_sources/think_tanks_data.csv", sep=',', parse_dates=True, on_bad_lines='warn')
+
+def get_think_tank_charities(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of think tank charities data from a CSV file, 
+    addressing issues related to unexpected number of fields and mixed types.
+    
+    Args:
+        data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Think tank charities data.
+    """
+    file_path = f"{data_dir}/other_data_sources/think_tank_charities.csv"
+    try:
+        df = pd.read_csv(file_path, 
+                         sep=',',  # 
+                         on_bad_lines='skip',   
+                         low_memory=False)  
+        return df
+    except ValueError as e:
+        print(f"Error loading think tank charities data: {e}")
+        return pd.DataFrame()  # Return empty DataFrame on error

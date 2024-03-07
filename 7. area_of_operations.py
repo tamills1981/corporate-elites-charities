@@ -143,20 +143,30 @@ all_data = pd.concat([int_ops, scot_NI, regional, local_ops])
 #categorise regions
 
 def categorise_region(region):
-    global_categories = ['Global']
-    international_categories = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Antarctica']
-    regional_categories = ['England', 'Wales', 'Scotland', 'Northern Ireland', 'UK']
-    # Assuming other regions are local
+    global_categories = ['global']
+    international_categories = ['africa', 'asia', 'europe', 'north america', 'south america', 'oceania', 'antarctica']
+    regional_categories = ['england', 'wales', 'scotland', 'northern ireland', 'uk']
+    # Handle missing values
+    if pd.isnull(region):
+        return 'local'  # or another default category if needed
 
-    if region in global_categories:
-        return 'global'
-    elif region in international_categories:
-        return 'international'
-    elif region in regional_categories:
-        return 'regional'
-    else:
-        return 'local'
+    # Normalize case and split the region by a delimiter if it has multiple entries
+    regions = [r.strip().lower() for r in str(region).split(';')]
+
+    # Check each region against the categories
+    for r in regions:
+        if r in global_categories:
+            return 'global'
+        elif r in international_categories:
+            return 'international'
+        elif r in regional_categories:
+            return 'regional'
+    return 'local'
+
+# Apply the updated function
 all_data['region_of_op'] = all_data['continents_of_op'].apply(categorise_region)
+
+
 
 all_data = all_data[['region_of_op', 'area_of_operation', 'organisation_number']]
 

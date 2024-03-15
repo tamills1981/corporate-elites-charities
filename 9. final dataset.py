@@ -35,26 +35,23 @@ unwanted_columns = ['registered_charity_number', 'charity_company_registration_n
 #Shorten some column names
 data_final.rename(columns = {
 'charity_activities': 'activities', 
-'how_provides_advocacy/advice/information': 'advocacy/advice/information', 
+'how_provides_advocacy/advice/information': 'advocacy/advice/info', 
 'how_sponsors_or_undertakes_research': 'research', 
 'what_accommodation/housing': ' accommodation/housing',
-'what_amateur_sport': 'amateur_sport',
-'what_animals': 'animals',
+'what_amateur_sport': 'amateur_sport', 'what_animals': 'animals', 
 'what_armed_forces/emergency_service_efficiency': 'armed_forces/emergency_services',
 'what_arts/culture/heritage/science': 'arts/culture/heritage/science',
 'what_economic/community_development/employment': 'economic/community_development/employment',
 'what_education/training': 'education/training',
 'what_environment/conservation/heritage': 'environment/conservation/heritage',
 'what_human_rights/religious_or_racial_harmony/equality_or_diversity': 'human_rights/equality/diversity',
-'what_overseas_aid/famine_relief': 'overseas_aid', 
-'what_recreation': 'recreation',
+'what_overseas_aid/famine_relief': 'overseas_aid', 'what_recreation': 'recreation', 
 'what_religious_activities': 'religion',
-'what_the_advancement_of_health_or_saving_of_lives': 'health/saving_of_lives',
+'what_the_advancement_of_health_or_saving_of_lives': 'health/saving_lives',
 'what_the_prevention_or_relief_of_poverty': 'poverty', 
-'who_children/young_people': 'young_people',
-'who_elderly/old_people': 'old_people',
+'who_children/young_people': 'young_people', 'who_elderly/old_people': 'old_people',
 'who_people_of_a_particular_ethnic_or_racial_origin': 'ethnic_group',
-'who_the_general_public/mankind':'general_public/mankind'}, inplace=True)
+'who_the_general_public/mankind':'public/mankind'}, inplace=True)
 
 data_final = (
               data_final.drop(columns=unwanted_columns)
@@ -68,5 +65,6 @@ data_final.to_csv(f'{DATA_DIR}/outputs/data_final.csv', index=False)
 for_stata = (
              data_final.replace({True: 1, False: 0})
              .drop(columns='activities')
-             .to_csv(f'{DATA_DIR}/outputs/for_stata.csv', index=False)
              )
+
+for_stata.to_csv(f'{DATA_DIR}/outputs/for_stata.csv', index=False)

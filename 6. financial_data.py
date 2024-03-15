@@ -22,7 +22,7 @@ means = (
                        'government_income':'mean_government_income', 'count_volunteers': 'mean_count_volunteers'})
     )
 
-#Assign income levels to 'bins' using UK Civil Society Almanac categories#
+#Assign income levels to 'bins' using UK Civil Society Almanac categories
 bins = [-np.inf,10000, 100000, 1000000, 10000000, 100000000, np.inf]
 bin_labels = ['Micro', 'Small', 'Medium', 'Large', 'Major', 'Super-major']
 means['median_income_ord'] = pd.cut(means['mean_gross_income'], bins, labels=bin_labels, include_lowest =True)

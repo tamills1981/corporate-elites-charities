@@ -56,7 +56,7 @@ CRCs = CRCs[['organisation_number', 'registered_charity_number', 'charity_compan
 
 #Create ordinal variable for charity age with three equal 'bins'
 bin_labels = ['0-20', '21-40', '41+']
-CRCs['charity_age'] = pd.cut(CRCs['charity_age'], bins=3, labels = bin_labels)
+CRCs['charity_age_ord'] = pd.cut(CRCs['charity_age'], bins=3, labels = bin_labels)
 
 #Create royal patronage boolean variable 
 CRCs['royal_patronage'] = CRCs['organisation_number'].isin(royal_patronage['registered_charity_number'])

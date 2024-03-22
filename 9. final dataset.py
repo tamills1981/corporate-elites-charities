@@ -7,13 +7,13 @@ DATA_DIR = f'{PROJECT_DIR}/'
 #Upload data
 data_final = get_CRCs(DATA_DIR)
 
-#Combine variables
+#Combine some variables
 data_final['makes_grants'] = data_final['how_makes_grants_to_individuals'] | data_final['how_makes_grants_to_organisations']
 data_final['disability'] = data_final['what_disability'] | data_final['who_people_with_disabilities']
 
 #Drop missing values and columns not wanted for analysis (inc. combined columns)
 unwanted_columns = ['registered_charity_number', 'charity_company_registration_number',
-'charity_contact_address1', 'charity_contact_address2',  
+'ctivities', 'charity_contact_address1', 'charity_contact_address2',  
 'charity_contact_address3', 'charity_contact_address4', 'charity_contact_address5',  
 'charity_contact_postcode', 'charity_contact_phone', 'charity_contact_email',  
 'charity_contact_web', 'charity_gift_aid', 'charity_has_land', 'mean_government_income',  
@@ -53,18 +53,14 @@ data_final.rename(columns = {
 'who_people_of_a_particular_ethnic_or_racial_origin': 'ethnic_group',
 'who_the_general_public/mankind':'public/mankind'}, inplace=True)
 
+#Replace boolean values with numeric values
 data_final = (
               data_final.drop(columns=unwanted_columns)
-              .dropna()
+              .replace({True: 1, False: 0})
               )
 
-#Export CSV
+data_final_dropped = data_final.dropna()
+
+#Export CSVs
 data_final.to_csv(f'{DATA_DIR}/outputs/data_final.csv', index=False)
-
-#File for analysis in Stata
-for_stata = (
-             data_final.replace({True: 1, False: 0})
-             .drop(columns='activities')
-             )
-
-for_stata.to_csv(f'{DATA_DIR}/outputs/for_stata.csv', index=False)
+data_final_dropped.to_csv(f'{DATA_DIR}/outputs/data_final_dropped.csv', index=False)

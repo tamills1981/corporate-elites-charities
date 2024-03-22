@@ -4,7 +4,7 @@ from getters import get_CRCs
 
 DATA_DIR = f'{PROJECT_DIR}/'
 
-#Upload data
+#Upload datagit 
 data_final = get_CRCs(DATA_DIR)
 
 #Combine some variables
@@ -13,7 +13,7 @@ data_final['disability'] = data_final['what_disability'] | data_final['who_peopl
 
 #Drop missing values and columns not wanted for analysis (inc. combined columns)
 unwanted_columns = ['registered_charity_number', 'charity_company_registration_number',
-'ctivities', 'charity_contact_address1', 'charity_contact_address2',  
+'charity_activities', 'charity_contact_address1', 'charity_contact_address2',  
 'charity_contact_address3', 'charity_contact_address4', 'charity_contact_address5',  
 'charity_contact_postcode', 'charity_contact_phone', 'charity_contact_email',  
 'charity_contact_web', 'charity_gift_aid', 'charity_has_land', 'mean_government_income',  
@@ -34,7 +34,6 @@ unwanted_columns = ['registered_charity_number', 'charity_company_registration_n
 
 #Shorten some column names
 data_final.rename(columns = {
-'charity_activities': 'activities', 
 'how_provides_advocacy/advice/information': 'advocacy/advice/info', 
 'how_sponsors_or_undertakes_research': 'research', 
 'what_accommodation/housing': ' accommodation/housing',

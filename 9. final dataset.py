@@ -4,7 +4,7 @@ from getters import get_CRCs
 
 DATA_DIR = f'{PROJECT_DIR}/'
 
-#Upload datagit 
+#Upload data
 data_final = get_CRCs(DATA_DIR)
 
 #Combine some variables
@@ -21,8 +21,7 @@ unwanted_columns = ['registered_charity_number', 'charity_company_registration_n
 'charity_agreement_professional_fundraiser',  'charity_commercial_participator',  
 'charity_agreement_commerical_participator', 'grant_making_is_main_activity',  
 'charity_receives_govt_funding_contracts', 'charity_receives_govt_funding_grants',  
-'charity_has_trading_subsidiary', 'trustee_also_director_of_subsidiary',  
-'does_trustee_receive_any_benefit', 'trustee_payments_acting_as_trustee',  
+'charity_has_trading_subsidiary', 'trustee_also_director_of_subsidiary', 'trustee_payments_acting_as_trustee',  
 'trustee_receives_payments_services', 'trustee_receives_other_benefit',  
 'trustee_resigned_employment', 'employees_salary_over_60k', 'how_other_charitable_activities',
 'how_acts_as_an_umbrella_or_resource_body', 'how_provides_services',
@@ -30,7 +29,7 @@ unwanted_columns = ['registered_charity_number', 'charity_company_registration_n
 'how_provides_other_finance', 'what_general_charitable_purposes',  
 'what_other_charitable_purposes', 'who_other_charities_or_voluntary_bodies',  
 'who_other_defined_groups', 'how_makes_grants_to_individuals', 'how_makes_grants_to_organisations',
-'what_disability', 'who_people_with_disabilities']
+'what_disability', 'who_people_with_disabilities', 'charity_age', 'does_trustee_receive_any_benefit']
 
 #Shorten some column names
 data_final.rename(columns = {
@@ -45,7 +44,7 @@ data_final.rename(columns = {
 'what_environment/conservation/heritage': 'environment/conservation/heritage',
 'what_human_rights/religious_or_racial_harmony/equality_or_diversity': 'human_rights/equality/diversity',
 'what_overseas_aid/famine_relief': 'overseas_aid', 'what_recreation': 'recreation', 
-'what_religious_activities': 'religion',
+'what_religious_activities': 'religion', 
 'what_the_advancement_of_health_or_saving_of_lives': 'health/saving_lives',
 'what_the_prevention_or_relief_of_poverty': 'poverty', 
 'who_children/young_people': 'young_people', 'who_elderly/old_people': 'old_people',
@@ -61,5 +60,4 @@ data_final = (
 data_final_dropped = data_final.dropna()
 
 #Export CSVs
-data_final.to_csv(f'{DATA_DIR}/outputs/data_final.csv', index=False)
-data_final_dropped.to_csv(f'{DATA_DIR}/outputs/data_final_dropped.csv', index=False)
+data_final_dropped.to_csv(f'{DATA_DIR}/outputs/data_final.csv', index=False)

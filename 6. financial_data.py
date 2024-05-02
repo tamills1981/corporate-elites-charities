@@ -37,10 +37,10 @@ mean_income = (
                .rename(columns = {'total_gross_income':'mean_gross_income'})
                )
 
-#Assign income levels to 'bins' using UK Civil Society Almanac categories
+#Assign income levels to 'bins' using the NCVO's UK Civil Society Almanac categories
 bins = [-np.inf,10000, 100000, 1000000, 10000000, 100000000, np.inf]
 bin_labels = ['Micro', 'Small', 'Medium', 'Large', 'Major', 'Super-major']
-mean_income['median_income_ord'] = pd.cut(mean_income['mean_gross_income'], bins, labels=bin_labels, include_lowest =True)
+mean_income['ncvo_size_categories'] = pd.cut(mean_income['mean_gross_income'], bins, labels=bin_labels, include_lowest =True)
 
 #List of the boolean columns in the annual returns dataframe
 boolean_columns = parta.select_dtypes(include='bool').columns
@@ -57,6 +57,9 @@ parta_data = pd.concat([means, grouped_booleans], axis=1)
 #Merge the data
 CRCs = pd.merge(CRCs, parta_data, how='left', on='organisation_number')
 CRCs = pd.merge(CRCs, mean_income, how='left', on='organisation_number')
+
+#Assign income level to three quantiles
+CRCs['charity_size'] = pd.qcut(CRCs['mean_gross_income'], q=3, labels=['small', 'medium', 'large'])
 
 #Export data
 CRCs.to_csv(f'{DATA_DIR}/outputs/CRCs.csv', index=False)

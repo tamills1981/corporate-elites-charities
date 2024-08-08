@@ -1,8 +1,10 @@
 import pandas as pd
-from utils import PROJECT_DIR
-from getters import get_final_dataset
 import numpy as np
 from scipy.stats import chi2_contingency
+from scipy.stats.contingency import odds_ratio
+
+from utils import PROJECT_DIR
+from getters import get_final_dataset
 
 DATA_DIR = f'{PROJECT_DIR}/'
 
@@ -13,27 +15,15 @@ df = get_final_dataset(DATA_DIR)
 columns_to_drop = ['organisation_number', 'charity_name', 'date_of_registration',
  'mean_gross_income', 'area_of_operation', 'years_not_active']
 df = df.drop(columns=columns_to_drop)
-
 df = df.dropna()
-
-#For Table 1
-
-# Function to generate count and percentage
-def count_and_percentage(column):
-    counts = column.value_counts()
-    percentages = (counts / len(column)) * 100
-    return pd.DataFrame({'Frequency': counts, 'Percentage': percentages})
-
-# Creating a new DataFrame to store counts and percentages
-Table_1 = pd.concat([count_and_percentage(df[col].astype(str)) for col in df.columns], axis=0, keys=df.columns)
-
-#For Table 2
 
 #Create list of variables
 variables = df.columns.to_list()
 
 #Drop outcome variable from list
 variables.remove('corporate_elite_trustee')
+
+#Crosstabs to produce expected values of predictor variables
 
 chi2 = []
 crosstabs_list = []
@@ -46,6 +36,19 @@ for v in variables:
     result['chi2'] = c
     result['p-value'] = p
     result['degrees of freedom'] = dof
+    
+    if len(crosstab) == 2:
+        res = odds_ratio(crosstab)
+        result['odds_ratio'] = res.statistic
+    else:
+        result['odds_ratio'] = None
+    
+    #Cramers V Effect Size
+    N = crosstab.sum().sum()
+    min_dim = min(crosstab.shape) - 1
+    cramers_v = np.sqrt(c / (N * min_dim))
+    result['Cramers V'] = cramers_v
+    
     chi2.append(result)
     
     crosstab = crosstab.reset_index()
@@ -69,12 +72,12 @@ sim_df = (
           )
 
 #Set number of permutations
-no_iterations = 10000
+NO_ITERATIONS = 10000
 
 #While loop running permutations
 iteration = 0
 
-while iteration < no_iterations:
+while iteration < NO_ITERATIONS:
     iteration += 1
     
     #Random numpy array with same frequency as the outome variable
@@ -103,7 +106,6 @@ while iteration < no_iterations:
     #Add as new column to the dataframe with the observed data
     sim_df = pd.merge(sim_df, it_df, how='left', on=['variable', 'value'])
 
-
 # Populate dictionary with proportion of simulated results as extreme as 
 # the observed data
 permutation_results_dict = {}
@@ -115,13 +117,12 @@ for row in sim_df.iterrows():
     N_expected = row[1]['N_expected']
     permutation_results = row[1][4:].to_frame(name='results')
     
-    #Replace this section with squared results
     if N_observed >= N_expected:
         permutation_results['extreme'] = permutation_results > N_observed
     else:
         permutation_results['extreme'] = permutation_results < N_observed
     
-    p_value = permutation_results['extreme'].sum() / 10000
+    p_value = permutation_results['extreme'].sum() / NO_ITERATIONS
     permutation_results_dict[row[0]] = {
         'variable': variable,
         'value': value,
@@ -132,5 +133,5 @@ for row in sim_df.iterrows():
 permutation_results_df = pd.DataFrame.from_dict(permutation_results_dict).T
 
 #Export permutation results and p values
-permutation_results_df.to_csv(f'{DATA_DIR}/outputs/permutation_test_p_values.csv', index=False)
-sim_df.to_csv(f'{DATA_DIR}/outputs/permutation_test_results.csv', index=False)
+permutation_results_df.to_csv(f'{DATA_DIR}/outputs/permutation_test.csv', index=False)
+sim_df.to_csv(f'{DATA_DIR}/outputs/permutation_test_results_full.csv', index=False)

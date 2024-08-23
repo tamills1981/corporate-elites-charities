@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb  9 10:48:35 2024
-
-@author: narzaninmassoumi
-"""
-
 import pandas as pd
 import numpy as np
 
@@ -110,7 +102,6 @@ df1['length'] = df1['local_authority_region'].apply(lambda x: len(x.split(', '))
 df1['area_of_operation'] = df1['length'].apply(lambda x: 'England' if x > 1 else np.nan)
 df1.rename(columns={'local_authority_region': 'regions_of_op'}, inplace=True)
 
-
 # Create separate df of charities active in Wales
 wales = df1[df1['regions_of_op'].str.contains('Wales') & (df1['length'] > 1)]
 wales['area_of_operation'] = 'England & Wales'
@@ -143,35 +134,27 @@ all_data = pd.concat([int_ops, scot_NI, regional, local_ops])
 #categorise regions
 
 def categorise_region(region):
-    global_categories = ['global']
-    international_categories = ['africa', 'asia', 'europe', 'north america', 'south america', 'oceania', 'antarctica']
-    regional_categories = ['england', 'wales', 'scotland', 'northern ireland', 'uk']
-    # Handle missing values
-    if pd.isnull(region):
-        return 'local'  # or another default category if needed
+    global_categories = ['Global']
+    international_categories = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Antarctica']
+    national_categories = ['England', 'Wales', 'Scotland', 'Northern Ireland', 'UK']
+    
+    #Assuming other regions are local
 
-    # Normalize case and split the region by a delimiter if it has multiple entries
-    regions = [r.strip().lower() for r in str(region).split(';')]
+    if region in global_categories:
+        return 'global'
+    elif region in international_categories:
+        return 'international'
+    elif region in national_categories:
+        return 'national'
+    else:
+        return 'local'
 
-    # Check each region against the categories
-    for r in regions:
-        if r in global_categories:
-            return 'global'
-        elif r in international_categories:
-            return 'international'
-        elif r in regional_categories:
-            return 'regional'
-    return 'local'
-
-# Apply the updated function
-all_data['region_of_op'] = all_data['continents_of_op'].apply(categorise_region)
-
-
+all_data['region_of_op'] = all_data['area_of_operation'].apply(categorise_region)
 
 all_data = all_data[['region_of_op', 'area_of_operation', 'organisation_number']]
 
 #Merge with the rest of the CRC data
 CRCs = pd.merge(CRCs, all_data, how='left', on='organisation_number')
 
-# #Export CSV
+#Export CSV
 CRCs.to_csv(f'{DATA_DIR}/outputs/CRCs.csv', index=False)

@@ -17,7 +17,6 @@ def strip_url(df, column):
         .apply(lambda x: x[:-1] if x.endswith('/') else x)
         .str.lower()
         .str.strip()
-        .replace('nan', None)
         )
     
     return df[column]

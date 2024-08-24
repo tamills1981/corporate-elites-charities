@@ -81,6 +81,7 @@ CRCs['high_culture'] = CRCs['organisation_number'].isin(high_culture_charities['
 #Create think tank variable 
 CRCs['think_tank'] = CRCs['organisation_number'].isin(think_tank_charities['organisation_number'])
 
+
 #Create corproate elite trustee variable
 
 
@@ -97,6 +98,7 @@ filt_active_during_period = (
 corporate_elite_appointments = corporate_elite_appointments.loc[filt_active_during_period]
 
 # Create corporate elite trustee variable
+
 CRCs['corporate_elite_trustee'] = CRCs['charity_company_registration_number'].isin(corporate_elite_appointments['appointed_to.company_number'])
 
 #Export the data as a csv

@@ -1,21 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  7 12:34:30 2024
-
-@author: narzaninmassoumi
-"""
-
-
-# @author: narzaninmassoumi
-# """
-
 import pandas as pd
 from utils import PROJECT_DIR
 from getters import get_charities, get_think_tanks
 
 DATA_DIR = f'{PROJECT_DIR}/'
-
 
 # upload data
 DATA_DIR = f'{PROJECT_DIR}/'
@@ -51,5 +38,6 @@ charity_data['is_think_tank'] = charity_data['cleaned_url'].apply(lambda x: x in
 
 # Filter charities that are identified as think tanks
 charities_think_tank = charity_data[charity_data['is_think_tank']]
+
 #Export ids as text file
 charities_think_tank.to_csv(f'{DATA_DIR}/other_data_sources/think_tank_charities.csv', header=True, index=False)

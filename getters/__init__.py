@@ -117,6 +117,18 @@ def get_annual_return_parta(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_parta.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
 
+def get_annual_return_history(data_dir: str) -> pd.DataFrame:
+    """Gets dataframe of charities annual_return_history
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Charities annual_return_history
+    """
+    return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity_annual_return_history.txt", sep='\t', parse_dates=[0, 3, 4, 6, 7, 8], on_bad_lines='warn'))
+
+
 def get_royal_patronage(data_dir: str) -> pd.DataFrame:
     """Gets dataframe of charities with royal patronage
         
@@ -139,6 +151,17 @@ def get_private_school_charities(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f'{data_dir}/other_data_sources/private_school_charities.txt', dtype={'organisation_number':'int64'}))
 
+def get_private_schools(data_dir: str) -> pd.DataFrame:
+    """Gets DataFrame of private schools from Department for Education
+        
+        Args:
+            data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: dataframe of private schools
+    """
+    return (pd.read_csv(f'{data_dir}/other_data_sources/private_schools.csv', encoding='latin1'))
+
 def get_oxbridge_charities(data_dir: str) -> pd.DataFrame:
     """Gets dataframe of oxbridge charities
         
@@ -150,16 +173,16 @@ def get_oxbridge_charities(data_dir: str) -> pd.DataFrame:
     """
     return (pd.read_csv(f'{data_dir}/other_data_sources/oxbridge.txt', dtype={'organisation_number':'int64'}))
 
-def get_private_schools(data_dir: str) -> pd.DataFrame:
-    """Gets dataframe of private schools from Department for Education
+def get_high_culture(data_dir: str) -> pd.DataFrame:
+    """Gets DataFrame of highbrow cultural charities
         
         Args:
             data_dir (str): Directory to data.
 
     Returns:
-        pd.DataFrame: dataframe of private schools
+        pd.DataFrame: dataframe of highbrow cultural charity organisation numbers
     """
-    return (pd.read_csv(f'{data_dir}/other_data_sources/private_schools.csv', encoding='latin1'))
+    return (pd.read_csv(f'{data_dir}/other_data_sources/high_culture.txt', dtype={'organisation_number':'int64'}))
 
 def get_area_of_operations_data(data_dir: str) -> pd.DataFrame:
     """
@@ -245,3 +268,15 @@ def get_think_tank_charities(data_dir: str) -> pd.DataFrame:
     except ValueError as e:
         print(f"Error loading think tank charities data: {e}")
         return pd.DataFrame()  # Return empty DataFrame on error
+    
+def get_final_dataset(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of final dataset.
+    
+    Args:
+        data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: Final dataset.
+    """
+    return pd.read_csv(f'{data_dir}//outputs/data_final.csv', sep=',', parse_dates=True, on_bad_lines='warn')

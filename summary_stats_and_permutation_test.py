@@ -13,7 +13,7 @@ df = get_final_dataset(DATA_DIR)
 
 #Drop columns not used in analysis
 columns_to_drop = ['organisation_number', 'charity_name', 'date_of_registration',
- 'mean_gross_income', 'area_of_operation', 'years_not_active']
+  'mean_gross_income', 'area_of_operation', 'years_not_active']
 df = df.drop(columns=columns_to_drop)
 df = df.dropna()
 
@@ -23,7 +23,7 @@ variables = df.columns.to_list()
 #Drop outcome variable from list
 variables.remove('corporate_elite_trustee')
 
-#Crosstabs to produce expected values of predictor variables
+#Crosstabs to produce odds ratios and expected values of predictor variables
 
 chi2 = []
 crosstabs_list = []
@@ -64,6 +64,8 @@ chi2_df = pd.DataFrame.from_dict(chi2)
 crosstabs_df = pd.concat(crosstabs_list).sort_values('variable').reset_index(drop=True)
 
 #Permutation test
+outcome_var_true = df['corporate_elite_trustee'].value_counts()[1]
+outcome_var_false = df['corporate_elite_trustee'].value_counts()[0]
 
 #Dataframe of results to populate with results of permutation test data
 sim_df = (
@@ -77,11 +79,16 @@ NO_ITERATIONS = 10000
 #While loop running permutations
 iteration = 0
 
+print('running permutation test...')
+
 while iteration < NO_ITERATIONS:
     iteration += 1
     
+    if iteration % 100 == 0:
+        print(f'Iteration {iteration} of {NO_ITERATIONS}')
+    
     #Random numpy array with same frequency as the outome variable
-    random_rows = np.array([True] * 983 + [False] * 30789)
+    random_rows = np.array([True] * outcome_var_true + [False] * outcome_var_false)
     np.random.shuffle(random_rows)
     
     #Replace the outcome variable with the random array
@@ -106,8 +113,7 @@ while iteration < NO_ITERATIONS:
     #Add as new column to the dataframe with the observed data
     sim_df = pd.merge(sim_df, it_df, how='left', on=['variable', 'value'])
 
-# Populate dictionary with proportion of simulated results as extreme as 
-# the observed data
+# Populate dictionary with proportion of simulated results as extreme as the observed data
 permutation_results_dict = {}
 
 for row in sim_df.iterrows():

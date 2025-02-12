@@ -95,6 +95,30 @@ def get_charities(data_dir: str) -> pd.DataFrame:
     return (pd.read_csv(f"{data_dir}/charity_data/publicextract.charity.txt", sep='\t', parse_dates=['date_of_extract', 'date_of_registration',
     'date_of_removal', 'date_cio_dissolution_notice'], on_bad_lines='warn'))
 
+def CRCs_no_co_no(data_dir: str) -> pd.DataFrame:
+    """
+    Gets DataFrame of charities with erroneous company numbers
+    
+    Args:
+        data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: DataFrame of charities with erroneous company numbers
+    """
+    return pd.read_csv('C:\\Users\\millst\\Box\\Research\\Corporations and Charities\\revisions round 2\\charities_co_no_check\\erroneous_CRCs_small.csv',  index_col=None)
+
+def checked_co_nos(data_dir: str) -> pd.DataFrame:
+    """
+    Gets DataFrame of manually checked company numbers
+    
+    Args:
+        data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: DataFrame of manually checked company numbers
+    """
+    return pd.read_csv(f'{data_dir}/outputs/confirm_charity_company_no.csv')
+
 def get_CRCs(data_dir: str) -> pd.DataFrame:
     """Gets dataframe of main charity data
         
@@ -268,6 +292,19 @@ def get_think_tank_charities(data_dir: str) -> pd.DataFrame:
     except ValueError as e:
         print(f"Error loading think tank charities data: {e}")
         return pd.DataFrame()  # Return empty DataFrame on error
+
+def get_confirm_company_no(data_dir: str) -> pd.DataFrame:
+    """
+    Gets dataframe of erroneous company registration numbers.
+    
+    Args:
+        data_dir (str): Directory to data.
+
+    Returns:
+        pd.DataFrame: erroneous company registration numbers
+    """
+    return pd.read_csv(f'{data_dir}//outputs/confirm_charity_company_no.csv')
+
     
 def get_final_dataset(data_dir: str) -> pd.DataFrame:
     """

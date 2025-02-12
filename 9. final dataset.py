@@ -1,11 +1,12 @@
 import pandas as pd
 from utils import PROJECT_DIR
-from getters import get_CRCs
+from getters import get_CRCs, get_confirm_company_no
 
 DATA_DIR = f'{PROJECT_DIR}/'
 
 #Upload data
 data_final = get_CRCs(DATA_DIR)
+confirmed_co_nos = get_confirm_company_no(DATA_DIR)
 
 #Combine some variables
 data_final['makes_grants'] = data_final['how_makes_grants_to_individuals'] | data_final['how_makes_grants_to_organisations']
@@ -50,6 +51,13 @@ data_final.rename(columns = {
 'who_children/young_people': 'young_people', 'who_elderly/old_people': 'old_people',
 'who_people_of_a_particular_ethnic_or_racial_origin': 'ethnic_group',
 'who_the_general_public/mankind':'public/mankind'}, inplace=True)
+
+#Dataframe of charities with erroneous company numbers
+erroneous_co_nos = confirmed_co_nos.loc[~confirmed_co_nos['confirm_company_no']]
+
+#Drop those charities from the dataset
+filt = data_final['charity_name'].isin(erroneous_co_nos['charity_name'])
+data_final = data_final.loc[~filt]
 
 #Replace boolean values with numeric values
 data_final = (

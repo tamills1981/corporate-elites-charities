@@ -1,2 +1,2 @@
 # corporate-elites-charities
-Research examining corporate appointments to charity boards
+Scripts and data for 'Elite Status‐Seeking and Class Reproduction in Civil Society: An Analysis of Corporate Elite Appointments to Charity Boards'
